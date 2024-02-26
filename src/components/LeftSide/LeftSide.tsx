@@ -6,9 +6,11 @@ const LeftSide = () => {
   const { currentMonth } = useDatePickerStore();
 
   return (
-    <section className="h-full w-96 p-10 text-sm flex flex-col items-center justify-start gap-4 border-r">
-      <DateTitle />
-      <MiniCalendar />
+    <section className="h-full min-w-96 text-sm flex flex-col items-center justify-start gap-4 border-r">
+      <div className="border-b w-full p-10 flex flex-col gap-4">
+        <DateTitle />
+        <MiniCalendar />
+      </div>
     </section>
   );
 };
