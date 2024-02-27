@@ -22,7 +22,7 @@ const RightSideDropdown = () => {
       {isDropdown ? (
         <div
           style={{ boxShadow: `rgba(0, 0, 0, 0.24) 0px 3px 8px` }}
-          className="absolute w-[300px] right-0 h-fit rounded top-12 bg-white"
+          className="absolute w-[300px] right-0 h-fit rounded top-12 bg-white z-50"
         >
           <ul className="p-2">
             <li
