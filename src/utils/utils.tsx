@@ -1,11 +1,17 @@
+const dayOfWeek = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
+
 export const getDayofMonth = (day: Date) => {
   const year = day.getFullYear();
   const month = day.getMonth();
+
   const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const indexDate = dayOfWeek.indexOf(
+    new Date(year, month, 1).toUTCString().slice(0, 3).toLowerCase()
+  );
   const firstDayOfMonth = new Date(
     year,
     month,
-    Math.floor(Math.random() * 3 + 1)
+    indexDate === 0 ? -59 : indexDate
   ).getDate();
   let currentCountMonth = 0 - firstDayOfMonth;
   return new Array(5).fill([]).map(() => {
