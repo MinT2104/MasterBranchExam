@@ -1,12 +1,18 @@
-import { space } from "postcss/lib/list";
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDatePickerStore } from "../../stores/DatePickerStore";
 import { getDayofMonth } from "../../utils/utils";
 
 const MiniCalendar = () => {
-  const { currentMonth } = useDatePickerStore();
+  const {
+    currentMonth,
+    reloadingWeek,
+    currentPickedDate,
+    setCurrentPickedDate,
+    setReloadingWeek,
+  } = useDatePickerStore();
 
   const dayOfWeek = ["sun", "mon", "tue", "wed", "thu", "pri", "sat"];
+  const today = new Date().toLocaleString();
 
   return (
     <section className="flex flex-col gap-4 w-full">
@@ -15,26 +21,47 @@ const MiniCalendar = () => {
           <span key={index}>{day}</span>
         ))}
       </div>
-      <div className="w-full flex flex-col gap-4">
+      {/* {currentFilter === 2 && ( */}
+      <div className="w-full flex flex-col gap-8">
         {getDayofMonth(currentMonth).map((week, index) => {
+          week.filter((data) => {
+            if (
+              today.slice(0, 9) ===
+              new Date(data.day).toLocaleString().slice(0, 9)
+            ) {
+              // setReloadingDate(data);
+            }
+          });
           return (
             <div
               key={index}
-              className=" w-full gap-2 grid grid-cols-7 text-center"
+              className="h-full w-full gap-4 grid grid-cols-7 text-center"
             >
               {week.map((data: any, index) => {
-                const today = new Date().toLocaleString();
                 return (
                   <div
                     key={index}
                     onClick={() => {
-                      console.log(new Date(data.day));
+                      setReloadingWeek({ data: week, index });
                     }}
-                    className={`${data.color} text-black  cursor-pointer ${
+                    className={`${data.color} text-black cursor-pointer ${
                       today.slice(0, 9) ===
                         new Date(data.day).toLocaleString().slice(0, 9) &&
                       "rounded-full flex items-center justify-center w-7 h-7 bg-blue-500 text-white"
-                    }`}
+                    }
+                    ${
+                      new Date(data.day).toLocaleString().slice(0, 9) ===
+                      new Date(
+                        reloadingWeek
+                          ? reloadingWeek?.data[reloadingWeek.index]?.day
+                          : null
+                      )
+                        .toLocaleString()
+                        .slice(0, 9)
+                        ? "rounded-full flex items-center justify-center w-7 h-7 bg-blue-300 text-white"
+                        : ""
+                    }
+                    `}
                   >
                     <span>{new Date(data.day).getDate()}</span>
                   </div>
@@ -44,6 +71,7 @@ const MiniCalendar = () => {
           );
         })}
       </div>
+      {/* )} */}
     </section>
   );
 };
