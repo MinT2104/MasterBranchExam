@@ -14,8 +14,6 @@ const DateTitle = () => {
     setNewMonth(newCurrentmonth);
   };
 
-  console.log(currentMonth.toString());
-
   const RenderTitle = useCallback(() => {
     return (
       <h1 className="font-bold text-xl select-none">
