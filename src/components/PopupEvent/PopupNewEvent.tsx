@@ -3,9 +3,11 @@ import { useDatePickerStore } from "../../stores/DatePickerStore";
 import { FaBars } from "react-icons/fa6";
 import { MdClear } from "react-icons/md";
 import { CiClock2 } from "react-icons/ci";
+import { useEventStore } from "../../stores/EventStore";
 
 const PopupNewEvent = () => {
   const { clickedDay, setClickedDay } = useDatePickerStore();
+  const { addEvent, events, getEventsByDay } = useEventStore();
   const [errState, setErrState] = useState<boolean>(false);
   const [typeEvent, setTypeEvent] = useState<number>(0);
   const nameRef = useRef<HTMLInputElement>(null);
@@ -25,12 +27,14 @@ const PopupNewEvent = () => {
         setErrState(false);
       }, 2000);
     } else {
-      console.log({
+      addEvent({
         title: nameRef.current?.value,
         desc: descRef.current?.value,
         day: clickedDay.day,
         type: eventData[typeEvent],
+        created_at: new Date(),
       });
+      setClickedDay({ day: null, index: { index: -1, weekindex: -1 } });
     }
   };
 
@@ -43,7 +47,7 @@ const PopupNewEvent = () => {
           : "translate-x-[-32%] right-0"
       } ${
         clickedDay.index.weekindex < 2 ? "-top-2" : "bottom-2"
-      } w-[400px] h-fit  z-50 bg-white absolute border rounded shadow-xl`}
+      } w-[400px] h-fit  z-[9999] bg-white absolute border rounded shadow-xl`}
     >
       <div className="p-2 bg-slate-100 flex items-center justify-between">
         <FaBars className="text-xl" />

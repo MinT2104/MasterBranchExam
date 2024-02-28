@@ -1,6 +1,8 @@
 const dayOfWeek = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
 
-export const getDayofMonth = (day: Date) => {
+type getDayofMonthType = (data: Date) => any[] | null;
+
+export const getDayofMonth: getDayofMonthType = (day: Date) => {
   const year = day.getFullYear();
   const month = day.getMonth();
 
@@ -11,9 +13,10 @@ export const getDayofMonth = (day: Date) => {
   const firstDayOfMonth = new Date(
     year,
     month,
-    indexDate === 0 ? -59 : indexDate
+    indexDate === 0 ? 1 : indexDate === 6 ? 1 : indexDate
   ).getDate();
-  let currentCountMonth = 0 - firstDayOfMonth;
+  let currentCountMonth =
+    (indexDate === 0 ? 1 : indexDate === 6 ? 2 : 0) - firstDayOfMonth;
   return new Array(5).fill([]).map(() => {
     return new Array(7).fill(null).map(() => {
       const day = new Date(year, month, currentCountMonth).toUTCString();

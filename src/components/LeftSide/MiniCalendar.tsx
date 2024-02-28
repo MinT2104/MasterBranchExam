@@ -6,13 +6,46 @@ const MiniCalendar = () => {
   const {
     currentMonth,
     reloadingWeek,
-    currentPickedDate,
-    setCurrentPickedDate,
+    reloadingDate,
     setReloadingWeek,
+    setReloadingDate,
   } = useDatePickerStore();
 
   const dayOfWeek = ["sun", "mon", "tue", "wed", "thu", "pri", "sat"];
   const today = new Date().toLocaleString();
+
+  useEffect(() => {
+    var dateClock = new Date();
+    dateClock.setDate(dateClock.getDate() - 1);
+
+    const weekData = getDayofMonth(currentMonth)?.flatMap((row) =>
+      row.filter((data: any) => {
+        if (data.day.slice(0, 16) === dateClock.toUTCString().slice(0, 16)) {
+          return true;
+        }
+        // return true;
+      })
+    );
+    console.log(weekData);
+    setReloadingDate(weekData ? weekData[0] : null);
+  }, []);
+
+  useEffect(() => {
+    const weekData = getDayofMonth(currentMonth);
+    if (weekData && reloadingDate) {
+      for (var i = 0; i < weekData.length; i++) {
+        weekData[i].map((data: any) => {
+          if (data.day === reloadingDate.day) {
+            setReloadingWeek({
+              data: weekData[i],
+              index: { dayIndex: weekData[i].indexOf(data), weekindex: i },
+            });
+          }
+        });
+      }
+    }
+  }, [reloadingDate]);
+  console.log(reloadingWeek);
 
   return (
     <section className="flex flex-col gap-4 w-full">
@@ -23,8 +56,8 @@ const MiniCalendar = () => {
       </div>
       {/* {currentFilter === 2 && ( */}
       <div className="w-full flex flex-col gap-8">
-        {getDayofMonth(currentMonth).map((week, index) => {
-          week.filter((data) => {
+        {getDayofMonth(currentMonth)?.map((week, index) => {
+          week.filter((data: any) => {
             if (
               today.slice(0, 9) ===
               new Date(data.day).toLocaleString().slice(0, 9)
@@ -37,11 +70,12 @@ const MiniCalendar = () => {
               key={index}
               className="h-full w-full gap-4 grid grid-cols-7 text-center"
             >
-              {week.map((data: any, index) => {
+              {week.map((data: any, index: number) => {
                 return (
                   <div
                     key={index}
                     onClick={() => {
+                      setReloadingDate(data);
                       setReloadingWeek({ data: week, index });
                     }}
                     className={`${data.color} text-black cursor-pointer ${
@@ -53,7 +87,7 @@ const MiniCalendar = () => {
                       new Date(data.day).toLocaleString().slice(0, 9) ===
                       new Date(
                         reloadingWeek
-                          ? reloadingWeek?.data[reloadingWeek.index]?.day
+                          ? reloadingWeek?.data[reloadingWeek?.index]?.day
                           : null
                       )
                         .toLocaleString()

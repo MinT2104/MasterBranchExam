@@ -5,10 +5,12 @@ type datePickerStore = {
   indexLastOfMonth: number;
   currentFilter: number;
   currentDayChosen: Date;
-  reloadingDate: any;
+  reloadingDate: any | null;
   reloadingWeek: any;
   currentPickedDate: any;
   clickedDay: any;
+  detailIndex: number;
+  setDetailIndex: (data: number) => void;
   setClickedDay: (data: any) => void;
   setCurrentPickedDate: (data: any) => void;
   setReloadingDate: (data: any) => void;
@@ -29,6 +31,10 @@ export const useDatePickerStore = create<datePickerStore>()((set, get) => ({
   clickedDay: "",
   setClickedDay(data) {
     set({ clickedDay: data });
+  },
+  detailIndex: -1,
+  setDetailIndex: (data: number) => {
+    set({ detailIndex: data });
   },
   setReloadingDate: (data) => {
     set({ reloadingDate: data });
