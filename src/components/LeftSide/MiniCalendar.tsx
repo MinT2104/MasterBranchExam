@@ -3,13 +3,8 @@ import { useDatePickerStore } from "../../stores/DatePickerStore";
 import { getDayofMonth } from "../../utils/utils";
 
 const MiniCalendar = () => {
-  const {
-    currentMonth,
-    reloadingWeek,
-    reloadingDate,
-    setReloadingWeek,
-    setReloadingDate,
-  } = useDatePickerStore();
+  const { currentMonth, reloadingDate, setReloadingWeek, setReloadingDate } =
+    useDatePickerStore();
 
   const dayOfWeek = ["sun", "mon", "tue", "wed", "thu", "pri", "sat"];
   const today = new Date().toLocaleString();
@@ -23,10 +18,8 @@ const MiniCalendar = () => {
         if (data.day.slice(0, 16) === dateClock.toUTCString().slice(0, 16)) {
           return true;
         }
-        // return true;
       })
     );
-    console.log(weekData);
     setReloadingDate(weekData ? weekData[0] : null);
   }, []);
 
@@ -45,10 +38,9 @@ const MiniCalendar = () => {
       }
     }
   }, [reloadingDate]);
-  console.log(reloadingWeek);
 
   return (
-    <section className="flex flex-col gap-4 w-full">
+    <section className="flex flex-col gap-4 w-full select-none">
       <div className="w-full uppercase  text-center text-[#7e7a7a] grid grid-cols-7">
         {dayOfWeek.map((day, index) => (
           <span key={index}>{day}</span>
@@ -62,7 +54,6 @@ const MiniCalendar = () => {
               today.slice(0, 9) ===
               new Date(data.day).toLocaleString().slice(0, 9)
             ) {
-              // setReloadingDate(data);
             }
           });
           return (
@@ -78,26 +69,21 @@ const MiniCalendar = () => {
                       setReloadingDate(data);
                       setReloadingWeek({ data: week, index });
                     }}
-                    className={`${data.color} text-black cursor-pointer ${
-                      today.slice(0, 9) ===
-                        new Date(data.day).toLocaleString().slice(0, 9) &&
-                      "rounded-full flex items-center justify-center w-7 h-7 bg-blue-500 text-white"
-                    }
-                    ${
-                      new Date(data.day).toLocaleString().slice(0, 9) ===
-                      new Date(
-                        reloadingWeek
-                          ? reloadingWeek?.data[reloadingWeek?.index]?.day
-                          : null
-                      )
-                        .toLocaleString()
-                        .slice(0, 9)
-                        ? "rounded-full flex items-center justify-center w-7 h-7 bg-blue-300 text-white"
-                        : ""
-                    }
+                    className={`${data.color} text-black cursor-pointer
                     `}
                   >
-                    <span>{new Date(data.day).getDate()}</span>
+                    <span
+                      className={`
+                       ${
+                         today.slice(0, 9) ===
+                         new Date(data.day).toLocaleString().slice(0, 9)
+                           ? "rounded-full flex items-center justify-center w-7 h-7 bg-blue-500 text-white"
+                           : reloadingDate?.day === data?.day && "text-blue-500"
+                       }
+                      `}
+                    >
+                      {new Date(data.day).getDate()}
+                    </span>
                   </div>
                 );
               })}

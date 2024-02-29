@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from "react";
 import { useDatePickerStore } from "../../stores/DatePickerStore";
-import { getDayofMonth } from "../../utils/utils";
 import WeekRenderComponent from "./WeekRenderComponent";
 import MonthRenderComponent from "./MonthRenderComponent";
 import DayRenderComponent from "./DayRenderComponent";

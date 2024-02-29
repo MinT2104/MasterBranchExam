@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDatePickerStore } from "../../stores/DatePickerStore";
 import { getDayofMonth } from "../../utils/utils";
 import PopupNewEvent from "../PopupEvent/PopupNewEvent";
@@ -7,16 +7,16 @@ import PopupEventDetail from "../PopupEvent/PopupEventDetail";
 import { v4 } from "uuid";
 
 const MonthRenderComponent = () => {
-  const { addEvent, events, getEventsByDay } = useEventStore();
+  const { events, getEventsByDay } = useEventStore();
 
   const {
     currentMonth,
     setClickedDay,
     clickedDay,
     detailIndex,
+    currentFilter,
     setDetailIndex,
   } = useDatePickerStore();
-  const [currentDataDate, setCurrentDataDate] = useState("");
   const today = new Date().toLocaleString();
   const dayOfWeek = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
   var currentEvent: string[] = [];
@@ -25,7 +25,6 @@ const MonthRenderComponent = () => {
     currentEvent = [];
   }, [currentMonth]);
   const getCurrentEvent = () => {
-    // currentEvent = [];
     const dayOfMonth = getDayofMonth(currentMonth);
     if (!dayOfMonth) return null;
 
@@ -61,13 +60,13 @@ const MonthRenderComponent = () => {
                 <div key={indexDay} className="h-full w-full relative">
                   {currentEvent?.includes(data.day) && (
                     <div
-                      key={v4()}
+                      key={indexDay + 1000}
                       className=" absolute cursor-pointer top-1 left-0  h-fit w-4/5 flex flex-col gap-[2px]"
                     >
                       {currentEvent?.includes(data.day) &&
                         getEventsByDay(
                           currentEvent[currentEvent.indexOf(data.day)]
-                        )?.map((data, index) => (
+                        )?.map((data) => (
                           <>
                             {detailIndex === events.indexOf(data) && (
                               <PopupEventDetail
@@ -79,6 +78,7 @@ const MonthRenderComponent = () => {
                               />
                             )}
                             <span
+                              key={v4()}
                               onClick={() => {
                                 setClickedDay({
                                   day: null,
@@ -86,7 +86,6 @@ const MonthRenderComponent = () => {
                                 });
                                 setDetailIndex(events.indexOf(data));
                               }}
-                              key={index}
                               className=" bg-purple-500 z-40 text-white shadow-lg w-full h-full rounded px-1 text-left truncate"
                             >
                               {data.title}
@@ -95,7 +94,9 @@ const MonthRenderComponent = () => {
                         ))}
                     </div>
                   )}
-                  {clickedDay.day === data.day ? <PopupNewEvent /> : null}
+                  {clickedDay.day === data.day && currentFilter === 2 ? (
+                    <PopupNewEvent />
+                  ) : null}
                   <div
                     onClick={() => {
                       clickedDay.day === data.day
@@ -107,7 +108,6 @@ const MonthRenderComponent = () => {
                             day: data.day,
                             index: { indexDay, weekindex },
                           });
-                      setCurrentDataDate(data.day);
                       setDetailIndex(-1);
                     }}
                     className={`${data.color} relative border truncate h-full text-black justify-center items-center flex 

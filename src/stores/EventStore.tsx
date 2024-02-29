@@ -1,8 +1,7 @@
 import { create } from "zustand";
-// type FilterFunction = (event: any) => boolean;
+import { createJSONStorage, persist } from "zustand/middleware";
 
 export type eventItemsType = {
-  //   filter?: FilterFunction;
   title: string;
   desc: string;
   day: string;
@@ -18,23 +17,33 @@ type eventStoreType = {
   getEventsByDay: (data: any) => eventItemsType[] | null;
 };
 
-export const useEventStore = create<eventStoreType>()((set, get) => ({
-  events: [],
-  addEvent: (eventData) =>
-    set((state) => ({ events: [...state.events, eventData] })),
-  updateEvent: (index, eventData) =>
-    set((state) => {
-      const updatedEvents = [...state.events];
-      updatedEvents[index] = eventData;
-      return { events: updatedEvents };
+export const useEventStore = create<eventStoreType>()(
+  persist(
+    (set, get) => ({
+      events: [],
+      addEvent: (eventData) =>
+        set((state) => ({ events: [...state.events, eventData] })),
+      updateEvent: (index, eventData) =>
+        set((state) => {
+          const updatedEvents = [...state.events];
+          updatedEvents[index] = eventData;
+          return { events: updatedEvents };
+        }),
+      deleteEvent: (index) =>
+        set((state) => ({
+          events: state.events.filter((_, i) => i !== index),
+        })),
+      getEventsByDay: (day) => {
+        const state = get();
+        if (!state.events) return null;
+        return state.events.filter(
+          (event: eventItemsType) => event.day === day
+        );
+      },
     }),
-  deleteEvent: (index) =>
-    set((state) => ({
-      events: state.events.filter((_, i) => i !== index),
-    })),
-  getEventsByDay: (day) => {
-    const state = get();
-    if (!state.events) return null;
-    return state.events.filter((event: eventItemsType) => event.day === day);
-  },
-}));
+    {
+      name: "eventStorage",
+      storage: createJSONStorage(() => sessionStorage),
+    }
+  )
+);

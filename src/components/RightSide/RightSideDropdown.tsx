@@ -16,7 +16,9 @@ const RightSideDropdown = () => {
       className="relative"
     >
       <button className="flex items-center gap-2 bg-blue-500 w-fit py-2 px-6 rounded-[12px] text-white">
-        <span>Day</span>
+        <span>
+          {currentFilter === 0 ? "Day" : currentFilter === 1 ? "Week" : "Month"}
+        </span>
         <MdKeyboardArrowDown className="text-xl" />
       </button>
       {isDropdown ? (
@@ -29,19 +31,19 @@ const RightSideDropdown = () => {
               onClick={() => setCurrentFilter(0)}
               className="w-full p-2 px-4 hover:bg-slate-200 cursor-pointer"
             >
-              Ngày
+              Day
             </li>
             <li
               onClick={() => setCurrentFilter(1)}
               className="w-full p-2 px-4 hover:bg-slate-200 cursor-pointer"
             >
-              Tuần
+              Week
             </li>
             <li
               onClick={() => setCurrentFilter(2)}
               className="w-full p-2 px-4 hover:bg-slate-200 cursor-pointer"
             >
-              Tháng
+              Month
             </li>
           </ul>
         </div>

@@ -22,7 +22,7 @@ type datePickerStore = {
   setIndexLastOfMonth: (data: number) => void;
   setNewMonth: (newMonth: Date) => void;
 };
-export const useDatePickerStore = create<datePickerStore>()((set, get) => ({
+export const useDatePickerStore = create<datePickerStore>()((set) => ({
   currentMonth: new Date(),
   indexLastOfMonth: 0,
   currentFilter: 2,

@@ -16,14 +16,14 @@ const DateTitle = () => {
 
   const RenderTitle = useCallback(() => {
     return (
-      <h1 className="font-bold text-xl select-none">
+      <h1 className="font-bold w-1/3 text-center text-xl select-none">
         {monthYear[1] + " " + monthYear[3]}
       </h1>
     );
   }, [currentMonth]);
 
   return (
-    <div className="flex items-center justify-center gap-4">
+    <div className="flex items-center justify-center select-none gap-4">
       <MdKeyboardArrowLeft
         onClick={() => handleSetDate(-1)}
         className="text-xl cursor-pointer"

@@ -1,6 +1,7 @@
 import MiniCalendar from "./MiniCalendar";
 import DateTitle from "./DateTitle";
 import { useDatePickerStore } from "../../stores/DatePickerStore";
+import UpComingEvent from "../UpcomingEvent/UpComingEvent";
 
 const LeftSide = () => {
   const { currentMonth } = useDatePickerStore();
@@ -11,6 +12,7 @@ const LeftSide = () => {
         <DateTitle />
         <MiniCalendar />
       </div>
+      <UpComingEvent />
     </section>
   );
 };
