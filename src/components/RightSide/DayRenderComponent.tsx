@@ -44,17 +44,19 @@ const DayRenderComponent = () => {
   };
   getCurrentEvent();
 
+  console.log(clickedDay);
+
   return (
     <div className="flex flex-col h-full gap-4 py-4 ">
       <div className=" h-full relative pt-20 justify-start">
-        {currentEvent?.includes(reloadingDate.day) && (
+        {currentEvent?.includes(reloadingDate?.day) && (
           <div
             key={v4()}
             className=" cursor-pointer top-1 left-0 h-fit w-fulll flex flex-col gap-[2px]"
           >
-            {currentEvent?.includes(reloadingDate.day) &&
+            {currentEvent?.includes(reloadingDate?.day) &&
               getEventsByDay(
-                currentEvent[currentEvent.indexOf(reloadingDate.day)]
+                currentEvent[currentEvent.indexOf(reloadingDate?.day)]
               )?.map((data) => (
                 <>
                   {detailIndex === events.indexOf(data) && (
@@ -72,13 +74,13 @@ const DayRenderComponent = () => {
                       setClickedDay({
                         day: null,
                         index: {
-                          dayIndex: reloadingWeek.index.dayIndex,
-                          weekindex: reloadingWeek.index,
+                          indexDay: reloadingWeek.index.dayIndex,
+                          weekindex: reloadingWeek.index.weekindex,
                         },
                       });
                       setDetailIndex(events.indexOf(data));
                     }}
-                    className=" bg-purple-500 z-40 text-white shadow-lg text-xl py-2 w-full h-full rounded px-4 cursor-pointer text-left truncate"
+                    className=" bg-lightBlue z-40 text-white shadow-lg text-xl py-2 w-full h-full rounded px-4 cursor-pointer text-left truncate"
                   >
                     {data.title}
                   </span>
@@ -86,20 +88,26 @@ const DayRenderComponent = () => {
               ))}
           </div>
         )}
-        {clickedDay.day === reloadingDate.day && currentFilter === 0 ? (
+        {clickedDay?.day === reloadingDate?.day && currentFilter === 0 ? (
           <PopupNewEvent />
         ) : null}
         {reloadingDate && (
           <div
             onClick={() => {
-              clickedDay.day === reloadingDate.day
+              clickedDay?.day === reloadingDate.day
                 ? setClickedDay({
                     day: null,
-                    index: { ...reloadingWeek.index },
+                    index: {
+                      indexDay: reloadingWeek?.index.dayIndex,
+                      weekindex: reloadingWeek?.index.weekindex,
+                    },
                   })
                 : setClickedDay({
                     day: reloadingDate.day,
-                    index: { ...reloadingWeek.index },
+                    index: {
+                      indexDay: reloadingWeek?.index.dayIndex,
+                      weekindex: reloadingWeek?.index.weekindex,
+                    },
                   });
               setDetailIndex(-1);
             }}
@@ -110,13 +118,13 @@ const DayRenderComponent = () => {
               className={`flex flex-col items-center text-2xl justify-center   absolute -top-2`}
             >
               <div className="w-full uppercase text-[12px] rounded-full text-center text-[#7e7a7a] justify-start flex flex-col ">
-                <span>{dayOfWeek[reloadingWeek.index.dayIndex]}</span>
+                <span>{dayOfWeek[reloadingWeek.index.dayIndex] || ""}</span>
               </div>
               <div
                 className={`w-10 h-10 hover:bg-slate-200 rounded-full flex items-center justify-center  ${
                   today.slice(0, 9) ===
                   new Date(reloadingDate?.day).toLocaleString().slice(0, 9)
-                    ? "bg-blue-500 text-white"
+                    ? "bg-lightBlue text-white"
                     : ""
                 }`}
               >

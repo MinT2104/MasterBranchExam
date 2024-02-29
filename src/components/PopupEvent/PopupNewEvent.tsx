@@ -30,11 +30,11 @@ const PopupNewEvent = () => {
       addEvent({
         title: nameRef.current?.value,
         desc: descRef.current?.value,
-        day: clickedDay.day,
+        day: clickedDay?.day,
         type: eventData[typeEvent],
         created_at: new Date(),
       });
-      setClickedDay({ day: null, index: { dayIndex: -1, weekindex: -1 } });
+      setClickedDay({ day: null, index: { indexDay: -1, weekindex: -1 } });
     }
   };
 
@@ -52,7 +52,7 @@ const PopupNewEvent = () => {
           : "translate-x-[-32%] right-0"
       } ${
         currentFilter === 2
-          ? clickedDay.index.weekindex < 2
+          ? clickedDay?.index.weekindex < 2
             ? "-top-2"
             : "bottom-2"
           : currentFilter === 1
@@ -94,7 +94,7 @@ const PopupNewEvent = () => {
               onClick={() => setTypeEvent(index)}
               className={`${
                 typeEvent === index
-                  ? "bg-sky-400 text-white border-sky-400"
+                  ? "bg-lightBlue text-white border-lightBlue"
                   : "bg-transparent text-slate-500 "
               } px-6 py-2 rounded border`}
             >
@@ -130,7 +130,7 @@ const PopupNewEvent = () => {
           {currentFilter === 2 ? (
             <button
               type="submit"
-              className="px-6 py-2 rounded border bg-sky-500 text-white"
+              className="px-6 py-2 rounded border bg-lightBlue text-white"
             >
               Save
             </button>
@@ -138,7 +138,7 @@ const PopupNewEvent = () => {
             <button
               type="submit"
               onClick={(e) => sendata(e)}
-              className="px-6 py-2 rounded border bg-sky-500 text-white"
+              className="px-6 py-2 rounded border bg-lightBlue text-white"
             >
               Save
             </button>

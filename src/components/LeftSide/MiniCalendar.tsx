@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useDatePickerStore } from "../../stores/DatePickerStore";
 import { getDayofMonth } from "../../utils/utils";
+import { v4 } from "uuid";
 
 const MiniCalendar = () => {
   const { currentMonth, reloadingDate, setReloadingWeek, setReloadingDate } =
@@ -48,7 +49,7 @@ const MiniCalendar = () => {
       </div>
       {/* {currentFilter === 2 && ( */}
       <div className="w-full flex flex-col gap-8">
-        {getDayofMonth(currentMonth)?.map((week, index) => {
+        {getDayofMonth(currentMonth)?.map((week, weekindex) => {
           week.filter((data: any) => {
             if (
               today.slice(0, 9) ===
@@ -58,16 +59,22 @@ const MiniCalendar = () => {
           });
           return (
             <div
-              key={index}
+              key={weekindex}
               className="h-full w-full gap-4 grid grid-cols-7 text-center"
             >
-              {week.map((data: any, index: number) => {
+              {week.map((data: any, dayIndex: number) => {
                 return (
                   <div
-                    key={index}
+                    key={v4()}
                     onClick={() => {
                       setReloadingDate(data);
-                      setReloadingWeek({ data: week, index });
+                      setReloadingWeek({
+                        data: week,
+                        index: {
+                          dayIndex,
+                          weekindex,
+                        },
+                      });
                     }}
                     className={`${data.color} text-black cursor-pointer
                     `}
@@ -77,8 +84,9 @@ const MiniCalendar = () => {
                        ${
                          today.slice(0, 9) ===
                          new Date(data.day).toLocaleString().slice(0, 9)
-                           ? "rounded-full flex items-center justify-center w-7 h-7 bg-blue-500 text-white"
-                           : reloadingDate?.day === data?.day && "text-blue-500"
+                           ? "rounded-full flex items-center justify-center w-7 h-7 bg-lightBlue text-white"
+                           : reloadingDate?.day === data?.day &&
+                             "text-lightBlue"
                        }
                       `}
                     >

@@ -5,6 +5,7 @@ import PopupNewEvent from "../PopupEvent/PopupNewEvent";
 import { useEventStore } from "../../stores/EventStore";
 import PopupEventDetail from "../PopupEvent/PopupEventDetail";
 import { v4 } from "uuid";
+import { dayType } from "../../types/types";
 
 const MonthRenderComponent = () => {
   const { events, getEventsByDay } = useEventStore();
@@ -28,8 +29,8 @@ const MonthRenderComponent = () => {
     const dayOfMonth = getDayofMonth(currentMonth);
     if (!dayOfMonth) return null;
 
-    const filteredEvents = dayOfMonth.flatMap((subArray: any) =>
-      subArray?.filter((event: any) => {
+    const filteredEvents = dayOfMonth.flatMap((subArray: dayType[]) =>
+      subArray?.filter((event: dayType) => {
         const eventsByDay = getEventsByDay(event?.day);
         if (eventsByDay && eventsByDay[0]?.day === event.day) {
           currentEvent = [...currentEvent, event.day];
@@ -55,7 +56,7 @@ const MonthRenderComponent = () => {
             key={weekindex}
             className=" w-full h-full grid  grid-cols-7 text-center items-center justify-center"
           >
-            {week.map((data: any, indexDay: number) => {
+            {week.map((data: dayType, indexDay: number) => {
               return (
                 <div key={indexDay} className="h-full w-full relative">
                   {currentEvent?.includes(data.day) && (
@@ -86,7 +87,7 @@ const MonthRenderComponent = () => {
                                 });
                                 setDetailIndex(events.indexOf(data));
                               }}
-                              className=" bg-purple-500 z-40 text-white shadow-lg w-full h-full rounded px-1 text-left truncate"
+                              className=" bg-lightBlue z-40 text-white shadow-lg w-full h-full rounded px-1 text-left truncate"
                             >
                               {data.title}
                             </span>
@@ -94,12 +95,12 @@ const MonthRenderComponent = () => {
                         ))}
                     </div>
                   )}
-                  {clickedDay.day === data.day && currentFilter === 2 ? (
+                  {clickedDay?.day === data.day && currentFilter === 2 ? (
                     <PopupNewEvent />
                   ) : null}
                   <div
                     onClick={() => {
-                      clickedDay.day === data.day
+                      clickedDay?.day === data.day
                         ? setClickedDay({
                             day: null,
                             index: { indexDay, weekindex },
@@ -117,7 +118,7 @@ const MonthRenderComponent = () => {
                       className={`flex items-center justify-center w-7 h-7 ${
                         today.slice(0, 9) ===
                         new Date(data.day).toLocaleString().slice(0, 9)
-                          ? "rounded-full  bg-blue-500 text-white "
+                          ? "rounded-full  bg-lightBlue text-white "
                           : ""
                       }`}
                     >

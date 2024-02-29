@@ -1,20 +1,37 @@
 import { create } from "zustand";
+import { dayType } from "../types/types";
+
+type reloadingWeekType = {
+  data: dayType[];
+  index: {
+    dayIndex: number | undefined;
+    weekindex: number | undefined;
+  };
+};
+
+type clickedDayType = {
+  day: any | null;
+  index: {
+    indexDay: number | undefined;
+    weekindex: number | undefined;
+  };
+};
 
 type datePickerStore = {
   currentMonth: Date;
   indexLastOfMonth: number;
   currentFilter: number;
   currentDayChosen: Date;
-  reloadingDate: any | null;
-  reloadingWeek: any;
+  reloadingDate: any;
+  reloadingWeek: reloadingWeekType | any;
   currentPickedDate: any;
-  clickedDay: any;
+  clickedDay: clickedDayType | any;
   detailIndex: number;
   setDetailIndex: (data: number) => void;
-  setClickedDay: (data: any) => void;
+  setClickedDay: (data: clickedDayType) => void;
   setCurrentPickedDate: (data: any) => void;
-  setReloadingDate: (data: any) => void;
-  setReloadingWeek: (data: any) => void;
+  setReloadingDate: (data: dayType | null) => void;
+  setReloadingWeek: (data: reloadingWeekType) => void;
   setCurrentDayChosen: (data: Date) => void;
   currentWeekChosen: { day: string; color: string }[];
   setCurrentWeekChosen: (data: { day: string; color: string }[]) => void;
@@ -28,7 +45,7 @@ export const useDatePickerStore = create<datePickerStore>()((set) => ({
   currentFilter: 2,
   currentDayChosen: new Date(),
   reloadingDate: null,
-  clickedDay: "",
+  clickedDay: null,
   setClickedDay(data) {
     set({ clickedDay: data });
   },

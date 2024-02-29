@@ -1,6 +1,8 @@
+import { dayType } from "../types/types";
+
 const dayOfWeek = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
 
-type getDayofMonthType = (data: Date) => any[] | null;
+type getDayofMonthType = (data: Date) => dayType[][] | null;
 
 export const getDayofMonth: getDayofMonthType = (day: Date) => {
   const year = day.getFullYear();

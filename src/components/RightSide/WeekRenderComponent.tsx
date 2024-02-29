@@ -84,13 +84,13 @@ const WeekRenderComponent = () => {
                               setClickedDay({
                                 day: null,
                                 index: {
-                                  dayIndex: indexDay,
+                                  indexDay,
                                   weekindex: reloadingWeek.index,
                                 },
                               });
                               setDetailIndex(events.indexOf(data));
                             }}
-                            className=" bg-purple-500 z-40 text-white shadow-lg w-full h-fit py-2 rounded px-1 cursor-pointer text-left truncate"
+                            className=" bg-lightBlue z-40 text-white shadow-lg w-full h-fit py-2 rounded px-1 cursor-pointer text-left truncate"
                           >
                             {data.title}
                           </span>
@@ -124,7 +124,7 @@ const WeekRenderComponent = () => {
                     className={`flex items-center text-2xl justify-center w-10 h-10 hover:bg-slate-200 rounded-full absolute -top-2 ${
                       today.slice(0, 9) ===
                       new Date(dataDay.day).toLocaleString().slice(0, 9)
-                        ? "bg-blue-500 text-white"
+                        ? "bg-lightBlue text-white"
                         : ""
                     }`}
                   >

@@ -81,7 +81,7 @@ const PopupEditEvent = (props: propsType) => {
           className={`${
             errState && !title
               ? "border-red-500 placeholder:text-red-500"
-              : "focus:border-blue-500"
+              : "focus:border-lightBlue"
           } py-2 p-2 border-b-[2px] w-full text-xl outline-none`}
           placeholder="Enter title and time"
         />
@@ -93,7 +93,7 @@ const PopupEditEvent = (props: propsType) => {
               onClick={() => setTypeEvent(index)}
               className={`${
                 typeEvent === index
-                  ? "bg-sky-400 text-white border-sky-400"
+                  ? "bg-lightBlue text-white border-lightBlue"
                   : "bg-transparent text-slate-500 "
               } px-6 py-2 rounded border`}
             >
@@ -131,7 +131,7 @@ const PopupEditEvent = (props: propsType) => {
           </button>
           <button
             type="submit"
-            className="px-6 py-2 rounded border bg-sky-500 text-white"
+            className="px-6 py-2 rounded border bg-lightBlue text-white"
           >
             Save
           </button>

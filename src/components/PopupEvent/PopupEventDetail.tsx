@@ -65,7 +65,7 @@ const PopupEventDetail = (props: PropsType) => {
       <div>
         <div className="flex flex-col items-start justify-start px-10 gap-4 pb-10">
           <div className=" flex justify-start items-start gap-4 ">
-            <div className="w-4 h-4 rounded bg-cyan-500 mt-2" />
+            <div className="w-4 h-4 rounded bg-lightBlue mt-2" />
             <div className="flex flex-col gap-2 items-start justify-start w-64">
               <textarea
                 disabled
